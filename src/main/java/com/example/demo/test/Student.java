@@ -10,18 +10,20 @@ import java.util.stream.Collectors;
 /**
  * @Filename: FluxDemo /com.example.demo.test
  * @Description:
+ * 参考 https://blog.csdn.net/y_k_y/article/details/84633001
+ *
  * @Author: Tiezhu.Li@paat.com/804082784@qq.com
  * @Version: 1.0
  * @CreateTime: 2019/7/25 17:33
  * @History:
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Student {
-    String name;
-    int age;
-    int type;
+    public String name;
+    public int age;
+    public int type;
 
     public static void main(String[] args) {
 

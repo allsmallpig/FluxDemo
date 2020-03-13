@@ -21,6 +21,8 @@ public class AppWareDemo implements ApplicationContextAware, InitializingBean {
         this.beanMaps = context.getBeansOfType(Object.class);
     }
 
+
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.context = applicationContext;

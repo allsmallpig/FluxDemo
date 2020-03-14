@@ -1,4 +1,4 @@
-package seal.localhost01.seal.configuration;
+package util.seal.original.seal.configuration;
 
 import java.awt.*;
 

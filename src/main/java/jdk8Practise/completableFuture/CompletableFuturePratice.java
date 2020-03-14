@@ -1,4 +1,4 @@
-package jdk8Practise;
+package jdk8Practise.completableFuture;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
  * @Description
  * @Versin 1.0
  */
-public class Main {
+public class CompletableFuturePratice {
 
 
     public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {

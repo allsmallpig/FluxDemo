@@ -1,4 +1,4 @@
-package jdk8Practise;
+package jdk8Practise.functionalInterface;
 
 import java.util.function.Function;
 

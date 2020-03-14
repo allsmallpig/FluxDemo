@@ -1,4 +1,4 @@
-package util;
+package util.seal.mydemo;
 
 /**
  * @author 画图工具

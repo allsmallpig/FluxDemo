@@ -1,10 +1,10 @@
-package seal;
+package util.seal.original;
 
 
-import seal.localhost01.seal.SealUtil;
-import seal.localhost01.seal.configuration.SealCircle;
-import seal.localhost01.seal.configuration.SealConfiguration;
-import seal.localhost01.seal.configuration.SealFont;
+import util.seal.original.seal.SealUtil;
+import util.seal.original.seal.configuration.SealCircle;
+import util.seal.original.seal.configuration.SealConfiguration;
+import util.seal.original.seal.configuration.SealFont;
 
 import java.awt.*;
 import java.io.IOException;

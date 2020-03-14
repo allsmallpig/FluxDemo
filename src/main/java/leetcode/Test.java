@@ -1,4 +1,4 @@
-package jdk8Practise;
+package leetcode;
 
 import java.util.*;
 import java.util.regex.Matcher;

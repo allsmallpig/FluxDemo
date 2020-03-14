@@ -1,4 +1,4 @@
-package seal.localhost01.seal.configuration;
+package util.seal.original.seal.configuration;
 
 /**
  * @Description: 印章圆圈类

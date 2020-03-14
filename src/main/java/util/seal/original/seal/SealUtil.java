@@ -1,9 +1,9 @@
-package seal.localhost01.seal;
+package util.seal.original.seal;
 
 
-import seal.localhost01.seal.configuration.SealCircle;
-import seal.localhost01.seal.configuration.SealConfiguration;
-import seal.localhost01.seal.configuration.SealFont;
+import util.seal.original.seal.configuration.SealCircle;
+import util.seal.original.seal.configuration.SealConfiguration;
+import util.seal.original.seal.configuration.SealFont;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

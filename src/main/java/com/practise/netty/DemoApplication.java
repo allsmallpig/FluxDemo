@@ -69,7 +69,7 @@ public class DemoApplication {
 //                .collect(toList());
     }
 
-    @GetMapping("/stream_practise")
+    @GetMapping("/jdk8Practise/stream_practise")
     public String etr() {
         return "0000";
     }

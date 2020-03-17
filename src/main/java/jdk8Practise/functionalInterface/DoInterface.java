@@ -9,10 +9,10 @@ package jdk8Practise.functionalInterface;
 @FunctionalInterface
 public interface DoInterface {
 
-    abstract void excute(String var);
-
+//    abstract void excute(String var);
+//
 //    abstract void excuteStr(String var,String var2);
 
-//    abstract void except(Throwable e) throws Throwable;
+    abstract void except(Throwable e) throws Throwable;
 
 }

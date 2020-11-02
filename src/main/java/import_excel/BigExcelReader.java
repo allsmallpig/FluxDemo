@@ -13,9 +13,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
@@ -45,68 +49,102 @@ public abstract class BigExcelReader {
     public static final String DATE_FORMAT_STR = "yyyy-MM-dd HH:mm:ss";
 
 
-    //	private DataFormatter formatter = new DataFormatter();
-    private InputStream sheet;
-    private XMLReader parser;
-    private InputSource sheetSource;
+    //	private DataFormatter formatter = new DataFormatter();、
+    private List<InputStream> sheetList = Lists.newArrayList();
+    private List<XMLReader> parserList = Lists.newArrayList();
+    private List<InputSource> sheetSourceList = Lists.newArrayList();
+    //    private InputStream sheet;
+//    private XMLReader parser;
+//    private InputSource sheetSource;
     private int index = 0;
 
     /**
      * 读大数据量Excel
      *
-     * @param filename 文件名
+     * @param sheetNaturalSerialNumber 读取一个excel文件中的第几个表格  null/默认全部
+     * @param filename  文件名
      * @param maxColNum 读取的最大列数
      * @throws IOException
      * @throws OpenXML4JException
      * @throws SAXException
      */
-    public BigExcelReader(String filename) throws IOException, OpenXML4JException, SAXException {
+    public BigExcelReader(String filename, Integer sheetNaturalSerialNumber) throws IOException, OpenXML4JException, SAXException {
         OPCPackage pkg = OPCPackage.open(filename);
-        init(pkg);
+        init(pkg,sheetNaturalSerialNumber);
     }
 
     /**
      * 读大数据量Excel
      *
-     * @param file Excel文件
+     * @param sheetNaturalSerialNumber 读取一个excel文件中的第几个表格  null/默认全部
+     * @param file      Excel文件
      * @param maxColNum 读取的最大列数
      * @throws IOException
      * @throws OpenXML4JException
      * @throws SAXException
      */
-    public BigExcelReader(File file) throws IOException, OpenXML4JException, SAXException {
+    public BigExcelReader(File file, Integer sheetNaturalSerialNumber) throws IOException, OpenXML4JException, SAXException {
         OPCPackage pkg = OPCPackage.open(file);
-        init(pkg);
+        init(pkg,sheetNaturalSerialNumber);
     }
 
     /**
      * 读大数据量Excel
      *
+     * @param sheetNaturalSerialNumber 读取一个excel文件中的第几个表格  null/默认全部
      * @param in Excel文件输入流
      * @throws IOException
      * @throws OpenXML4JException
      * @throws SAXException
      */
-    public BigExcelReader(InputStream in) throws IOException, OpenXML4JException, SAXException {
+    public BigExcelReader(InputStream in, Integer sheetNaturalSerialNumber) throws IOException, OpenXML4JException, SAXException {
         OPCPackage pkg = OPCPackage.open(in);
-        init(pkg);
+        init(pkg,sheetNaturalSerialNumber);
     }
 
     /**
      * 初始化 将Excel转换为XML
      *
      * @param pkg
+     * @param sheetNaturalSerialNumber 读取一个excel文件中的第几个表格  null/默认全部
      * @throws IOException
      * @throws OpenXML4JException
      * @throws SAXException
      */
-    private void init(OPCPackage pkg) throws IOException, OpenXML4JException, SAXException {
+    private void init(OPCPackage pkg, Integer sheetNaturalSerialNumber) throws IOException, OpenXML4JException, SAXException {
         XSSFReader xssfReader = new XSSFReader(pkg);
         SharedStringsTable sharedStringsTable = xssfReader.getSharedStringsTable();
         StylesTable stylesTable = xssfReader.getStylesTable();
-        sheet = xssfReader.getSheet("rId1");
-        parser = fetchSheetParser(sharedStringsTable, stylesTable);
-        sheetSource = new InputSource(sheet);
+        Iterator<InputStream> sheets = xssfReader.getSheetsData();
+
+        if (sheets instanceof XSSFReader.SheetIterator) {
+            XSSFReader.SheetIterator sheetiterator = (XSSFReader.SheetIterator) sheets;
+            int i = 0;
+            while (sheetiterator.hasNext()) {
+                i++;
+                InputStream dummy = sheetiterator.next();
+                if (null != sheetNaturalSerialNumber && i == sheetNaturalSerialNumber.intValue()) {
+                    addSheetsParams(xssfReader, sharedStringsTable, stylesTable, sheetiterator, i, dummy);
+                    break;
+                } else if (null == sheetNaturalSerialNumber) {
+                    addSheetsParams(xssfReader, sharedStringsTable, stylesTable, sheetiterator, i, dummy);
+                } else if (null != sheetNaturalSerialNumber && i != sheetNaturalSerialNumber.intValue()) {
+                    continue;
+                }
+            }
+        }
+
+    }
+
+    private void addSheetsParams(XSSFReader xssfReader, SharedStringsTable sharedStringsTable, StylesTable stylesTable, XSSFReader.SheetIterator sheetiterator, int i, InputStream dummy) throws IOException, InvalidFormatException, SAXException {
+        System.out.println(sheetiterator.getSheetName());
+        InputStream sheet = xssfReader.getSheet("rId" + i);
+        sheetList.add(sheet);
+        XMLReader parser = fetchSheetParser(sharedStringsTable, stylesTable);
+        parserList.add(parser);
+        InputSource sheetSource = new InputSource(sheet);
+        sheetSourceList.add(sheetSource);
+        dummy.close();
     }
 
     /**
@@ -115,21 +153,28 @@ public abstract class BigExcelReader {
      * @return 读取的Excel行数
      */
     public int parse() {
-        try {
-            parser.parse(sheetSource);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } finally {
-            if (sheet != null) {
-                try {
-                    sheet.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        int size = parserList.size();
+        for (int i = 0; i < size; i++) {
+            XMLReader parser = parserList.get(i);
+            InputStream sheet = sheetList.get(i);
+            try {
+                InputSource sheetSource = sheetSourceList.get(i);
+                parser.parse(sheetSource);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } finally {
+                if (sheet != null) {
+                    try {
+                        sheet.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
+
         return index;
     }
 
@@ -278,7 +323,7 @@ public abstract class BigExcelReader {
     /**
      * 输出每一行的数据
      *
-     * @param datas 数据
+     * @param datas    数据
      * @param rowTypes 数据类型
      * @param rowIndex 所在行
      */

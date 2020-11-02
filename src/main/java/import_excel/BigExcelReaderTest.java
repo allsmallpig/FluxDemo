@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 public class BigExcelReaderTest {
     public static void main(String[] args) throws Exception{
+        long timeStart = System.currentTimeMillis();
         String filepath = "D:\\workspace\\OA办公系统.xlsx";
         BigExcelReader reader = new BigExcelReader(filepath,null) {
             @Override
@@ -21,5 +22,7 @@ public class BigExcelReaderTest {
         };
         // 执行解析
         reader.parse();
+        long timeEnd = System.currentTimeMillis();
+        System.out.println("timeEnd = " + (timeEnd- timeStart)/60*60);
     }
 }

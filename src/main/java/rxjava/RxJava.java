@@ -27,13 +27,7 @@ public class RxJava {
 
         Flux<Object> empty = Flux.empty();
         //产生一个发射器
-        Observable.create(new ObservableOnSubscribe<Integer>() {
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<Integer> emitter) throws Throwable {
-                emitter.onNext(555);
-
-            }
-        }).subscribe(new Observer<Integer>() {
+        Observable.create((ObservableOnSubscribe<Integer>) emitter -> emitter.onNext(555)).subscribe(new Observer<Integer>() {
             @Override
             public void onSubscribe(@NonNull  Disposable d) {
                 System.out.println("onSubscribe = " );

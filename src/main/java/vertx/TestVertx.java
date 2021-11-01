@@ -10,7 +10,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
-import org.apache.commons.exec.util.MapUtils;
 import org.apache.commons.io.FileUtils;
 import org.springframework.context.annotation.Bean;
 

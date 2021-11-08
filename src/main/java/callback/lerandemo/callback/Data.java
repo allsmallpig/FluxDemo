@@ -1,4 +1,4 @@
-package netty.lerandemo.callback;
+package callback.lerandemo.callback;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

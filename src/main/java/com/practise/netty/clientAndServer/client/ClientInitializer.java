@@ -9,6 +9,11 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
 
+import java.nio.channels.SelectableChannel;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.util.Set;
+
 /**
  * @Filename: FluxDemo /com.example.demo.clientAndServer
  * @Description:
@@ -21,6 +26,14 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
+        Selector open = Selector.open();
+        if (open.isOpen()) {
+            Set<SelectionKey> keys = open.keys();
+            for (SelectionKey key : keys) {
+                SelectableChannel channel = key.channel();
+                channel.register(open,5);
+            }
+        }
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("lengthFieldBasedFrameDecoder",
                 new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 2, 0, 2));

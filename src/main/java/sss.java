@@ -1,41 +1,45 @@
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.*;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 /**
  * @author stein | litiezhu | 804082784@qq.com
  * @date 2021/11/2 11:15
  * @description
  */
+@Slf4j
+@Data
 public class sss {
-
+    LocalDateTime startTime;
+    LocalDateTime endTime;
     public static void main(String[] args) throws IOException {
-        LocalDateTime startTime = LocalDateTime.of(LocalDate.now().minusDays(6), LocalTime.MIN);
-        System.out.println("startTime = " + startTime);
-        LocalDateTime endTime =LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MAX);
-        System.out.println("endTime = " + endTime);
 
-        final LocalDate now = LocalDate.now();
-        LocalDateTime of = LocalDateTime.of(now.minusDays(4), LocalTime.MIN);
-        System.out.println("\nof = " + of);
-        LocalDateTime of1 = LocalDateTime.of(now.minusDays(1), LocalTime.MAX);
-        System.out.println("of1 = " + of1);
+        try {
+            int i  = 10/0;
+        } catch (Exception e) {
+            log.error("---测试异常信息e:---", e);
+            log.info("---分割线分割线分割线分割线分割线分割线分割线分割线:---");
+            log.error("---测试异常信息e:{}---", e);
+            log.info("---分割线分割线分割线分割线分割线分割线分割线分割线:---");
+            log.error("----测试异常信息 getFullStackTrace --- e:{}----", org.apache.commons.lang.exception.ExceptionUtils.getFullStackTrace(e));
+            log.info("---分割线分割线分割线分割线分割线分割线分割线分割线:---");
+            log.error("----测试异常信息 getMessage ---e:{}----", ExceptionUtils.getMessage(e));
+            log.info("---分割线分割线分割线分割线分割线分割线分割线分割线:---");
+            log.error("---测试异常信息 getCause e:{}---", ExceptionUtils.getCause(e));
+            log.info("---分割线分割线分割线分割线分割线分割线分割线分割线:---");
 
-        String ss = "{\n" +
-                "    \"networkId\": 22,\n" +
-                "    \"networkName\": \"总部\",\n" +
-                "    \"franchiseeNetworkId\": null,\n" +
-                "    \"franchiseeNetworkName\": null,\n" +
-                "    \"agencyNetworkId\": null,\n" +
-                "    \"agencyNetworkName\": null,\n" +
-                "    \"statisticsDate\": \"2021-03-22\",\n" +
-                "    \"complaintsCount\": 1,\n" +
-                "    \"timeoutCount\": 0,\n" +
-                "    \"autoCloseCount\": 0\n" +
-                "  }";
-        System.out.println("ss = " + ss.length());
+        }
+
+
     }
 }

@@ -1,4 +1,4 @@
-package task;
+package jdk8Practise.task;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;

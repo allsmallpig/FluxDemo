@@ -1,4 +1,4 @@
-package task;
+package jdk8Practise.task;
 
 /**
  * @author ltz

@@ -1,4 +1,4 @@
-package task;
+package jdk8Practise.task;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

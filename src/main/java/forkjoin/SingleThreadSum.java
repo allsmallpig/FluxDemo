@@ -7,7 +7,12 @@ package forkjoin;
  * @date 2022-08-21 19:00
  * @description
  */
-public class MainSum {
+public class SingleThreadSum {
+
+
+     /**
+      * 单线程执行累加
+      * */
 
     public static void main(String[] args) {
 

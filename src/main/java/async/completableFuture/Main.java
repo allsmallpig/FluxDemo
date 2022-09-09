@@ -1,9 +1,22 @@
 package async.completableFuture;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.functions.Function;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * @author
@@ -27,6 +40,27 @@ public class Main {
         //抛异常
 //        stringCompletableFuture.completeExceptionally(new Exception());
 //        System.out.println(stringCompletableFuture.get());
+
+        Observable<Object> objectObservable = Observable.fromFuture(CompletableFuture.runAsync(() -> {
+
+        }).handleAsync((unused, throwable) -> null).whenComplete((o, throwable) -> {
+
+        }));
+
+        Observable<Integer> wrap = Observable.wrap(Observable.fromOptional(Optional.of(1)));
+        wrap.subscribe();
+        List<Integer> collect = wrap.blockingStream().collect(Collectors.toList());
+
+        List<Object> collect1 = Collections.singletonList(Single.fromObservable(wrap)
+                .flatMapPublisher(integer ->
+                        (Publisher) subscriber -> {
+        }).blockingStream().collect(Collectors.toList()));
+
+
+
+        System.out.println("count = " + collect.size());
+
+
 
         CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> {
             return 100;

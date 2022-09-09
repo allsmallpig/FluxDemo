@@ -48,7 +48,6 @@ public class SumForkJoin {
                 return left.join()+right.join();
             }
         }
-
     }
 
 

@@ -24,4 +24,8 @@ public class AddArray {
         }
         return origin;
     }
+
+    public static void main(String[] args) {
+
+    }
 }

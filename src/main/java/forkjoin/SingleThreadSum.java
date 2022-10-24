@@ -57,12 +57,15 @@ public class SingleThreadSum {
 
         LocalDateTime now = LocalDateTime.now();
 
+
+        //TODO 配置的间隔时间
         int daysPlus = 8;
 
         int totalDays = 0;
         for (int i = 1; i <= daysPlus; i++) {
             LocalDateTime ldt = now.minusDays(i);
             Integer week = ldt.getDayOfWeek().getValue();
+            //TODO 配置的第几个
             if((null!=week && week.equals(NumberEnum.SIX.getCode()))||
                     null!=week && week.equals(NumberEnum.SEVEN.getCode())){
                 totalDays = totalDays + 1;

@@ -1,5 +1,16 @@
 package constant;
 
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * 云路供应链科技有限公司 版权所有  Copyright 2019
  * 数字枚举
@@ -42,6 +53,47 @@ public enum NumberEnum {
     public void setCode(Integer code) {
         this.code = code;
     }
+
+//    public static void main(String[] args) {
+//        String mobile = "55151588";
+//        String maskStr = getStringBuffer(mobile);
+//        System.out.println("length = " + maskStr);
+//    }
+//
+//    private static String getStringBuffer(String mobile) {
+//        if(StringUtils.isNotEmpty(mobile)){
+//            StringBuffer maskStr = new StringBuffer();
+//            int length = mobile.length();
+//            for (int j = 0; j < length - 4; j++) {
+//                maskStr.append("*");
+//            }
+//            maskStr.append(mobile, length - 4, length);
+//            return maskStr.toString();
+//        }
+//       return "";
+//    }
+
+    public static void main(String[] args) {
+//        String str = "{\"isConnected\":\"1\",\"timeRing\":\"17\"}";
+//
+//        byte[] bytes = str.getBytes();
+//        System.out.println("bytes = " + bytes.length);
+
+//        String collect = Stream.of("1", "2", "3").collect(Collectors.joining());
+//        System.out.println("collect = " + collect);
+
+//        LocalDateTime now = LocalDateTime.now();
+//        LocalDateTime localDateTime = now.minusSeconds(500000);
+//        Duration duration = Duration.between(now, localDateTime);
+//        System.out.println("second = " + duration.abs().getSeconds());
+//        System.out.println("second = " + duration.getSeconds());
+        int i = 25;
+        i = ++i;
+        System.out.println("args = " + i);
+    }
+
+
+
 
 
 }

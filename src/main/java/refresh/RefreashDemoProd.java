@@ -2,11 +2,11 @@ package refresh;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.*;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StopWatch;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,21 +19,33 @@ import java.util.List;
  * @date 2022-10-24 9:36
  * @description
  */
+@Slf4j
 public class RefreashDemoProd {
 
     public static void main(String[] args) throws IOException {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
 
         List<String> strings = FileUtils.readLines(new File("C:\\Users\\litiezhu\\Desktop\\紫金山刷数据\\最终实际要刷的数据\\刷数据格式文本.txt"), "UTF-8");
-        System.out.println("strings = " + JSON.toJSONString(strings));
-
-        List<List<String>> partition = Lists.partition(strings, 500);
+        System.out.println("strings = " + strings.size());
+        int i = 0;
+        List<List<String>> partition = Lists.partition(strings, 20);
         for (List<String> stringList : partition) {
             for (String s : stringList) {
                 s = s.replace("\t", "");
-                System.out.println("s = " + s);
+                System.out.println("i= " + i + "______s = " + s);
                 extracted(s);
+                i++;
+            }
+            try {
+                Thread.sleep(3);
+                System.out.println("i= " + i + "______sllep over ");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
+        stopWatch.stop();
+        log.info("总共耗时",stopWatch.getTotalTimeMillis());
     }
 
     private static void extracted(String param) {
@@ -43,7 +55,7 @@ public class RefreashDemoProd {
         String anString = "";
 //        String cookie = "OUTFOX_SEARCH_USER_ID_NCOO=707812215.5230199; XXL_JOB_LOGIN_IDENTITY=3166376263353661383735356339336634306132306562323331346463613266; ___rl__test__cookies=1666575045429";
         String cookie = "OUTFOX_SEARCH_USER_ID_NCOO=707812215.5230199; XXL_JOB_LOGIN_IDENTITY=6533636261333836626562333166643831613365663537333832353933333932; ___rl__test__cookies=1666590181146";
-                //组装键值，params为键值，name为属性名
+        //组装键值，params为键值，name为属性名
         FormBody formBody = new FormBody.Builder()
                 //需要的参数(key,value的格式可以一直add)
                 .add("id", "325")

@@ -17,7 +17,7 @@ import java.util.List;
  * @date 2022-10-24 9:36
  * @description
  */
-public class RefreashDemo {
+public class RefreashDemoUat {
 
     public static void main(String[] args) throws IOException {
 

@@ -40,7 +40,7 @@ public class RefreashDemoUat {
                 i++;
             }
             try {
-                Thread.sleep(1500);
+                Thread.sleep(2000);
                 System.out.println("i= " + i + "______sllep over ");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
